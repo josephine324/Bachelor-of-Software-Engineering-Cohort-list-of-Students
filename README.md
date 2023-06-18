@@ -1,1 +1,1 @@
-Thapplication take user input and build the Bachelor of Software Engineering cohort list of students.
+The application takes user input and builds the Bachelor of Software Engineering cohort list of students.
