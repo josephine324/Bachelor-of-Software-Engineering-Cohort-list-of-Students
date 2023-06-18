@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-#Take information from users and buid the Bachelor of Software enggineering
-#!/usr/bin/env bash
 #Takes information from users and build the Bachelor of Software engineering cohort list
 students_file="students-list_0333.txt"
 emails_file="student-emails.txt"
