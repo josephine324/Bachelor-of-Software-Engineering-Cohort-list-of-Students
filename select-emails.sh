@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# script that selects just the emails of the studen
+#Create a command to select just the emails of the student.
 filename="students-list_0333.txt"
 output="student-emails.txt"
 
