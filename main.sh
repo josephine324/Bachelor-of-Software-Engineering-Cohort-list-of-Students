@@ -1,67 +1,79 @@
 #!/usr/bin/env bash
-#Takes information from users and build the Bachelor of Software engineering cohort list
+#building an application
 students_file="students-list_0333.txt"
-emails_file="student-emails.txt"
 
-while true; do
-    echo "----------------------------"
-    echo "Bachelor of Software Engineering Cohort List"
-    echo "----------------------------"
-    echo "1. Create a student record"
+create_student() {
+    read -p "Enter student email: " email
+    read -p "Enter student age: " age
+    read -p "Enter student ID: " student_id
+
+    echo "$email $age $student_id" >> "$students_file"
+    echo "Student record created."
+}
+
+view_students() {
+	if [ -s "$students_file" ]; then
+		cat $students_file
+	else
+		echo "No students found."
+	fi
+}
+
+delete_student() {
+    read -p "Enter student ID to delete: " student_id
+    if grep -q "^.* $student_id\$" "$students_file"; then
+        sed -i "/^.* $student_id\$/d" "$students_file"
+        echo "Student deleted."
+    else
+        echo "Student not found."
+    fi
+}
+update_student() {
+    read -p "Enter student ID to update: " student_id
+    if grep -q "^.* $student_id\$" "$students_file"; then
+        read -p "Enter updated email: " email
+        read -p "Enter updated age: " age
+
+        sed -i "/^.* $student_id\$/d" "$students_file"
+        echo "$email $age $student_id" >> "$students_file"
+        echo "Student updated."
+    else
+        echo "Student not found."
+    fi
+}
+
+while true
+do
+    echo "----- Bachelor of Software Engineering Cohort List -----"
+    echo "1. Create student record"
     echo "2. View all students"
-    echo "3. Delete a student"
-    echo "4. Update a student record"
-    echo "5. Select emails"
-    echo "6. Exit"
-    echo "----------------------------"
+    echo "3. Delete student"
+    echo "4. Update student record"
+    echo "5. Exit"
 
-    read -p "Enter your choice: " choice
-    echo "----------------------------"
+    read -p "Enter your choice (1-5): " choice
 
     case $choice in
         1)
-            read -p "Enter student email: " email
-            read -p "Enter student age: " age
-            read -p "Enter student ID: " student_id
-            echo "$email, $age, $student_id" | tee -a "$students_file" >/dev/null
-            echo "Student record created successfully."
+            create_student
             ;;
         2)
-            echo "List of all students:"
-            cat "$students_file"
+            view_students
             ;;
         3)
-            read -p "Enter student ID to delete: " delete_id
-            if grep -q "^$delete_id," "$students_file"; then
-                sed -i "/^$delete_id,/d" "$students_file"
-                echo "Student record deleted successfully."
-            else
-                echo "Student ID not found."
-            fi
+            delete_student
             ;;
         4)
-            read -p "Enter student ID to update: " update_id
-            if grep -q "^$update_id," "$students_file"; then
-                read -p "Enter new student email: " new_email
-                read -p "Enter new student age: " new_age
-sed -i "s/^$update_id,.*/$new_email, $new_age, $update_id/g" "$students_file"
-                echo "Student record updated successfully."
-            else
-                echo "Student ID not found."
-            fi
+            update_student
             ;;
         5)
-            grep -oE '[[:alnum:]_.+-]+@[[:alnum:]_-]+\.[[:alnum:]_-]+' "$students_file" > "$emails_file"
-            echo "Selected emails saved to $emails_file."
-            ;;
-        6)
             echo "Exiting the application."
-            exit 0
+            exit
             ;;
         *)
-            echo "Invalid choice. Please try again."
+            echo "Invalid choice. Please enter a number from 1 to 5."
             ;;
     esac
 
-    echo "----------------------------"
+    echo "-----------------------------------------------------"
 done
