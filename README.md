@@ -3,4 +3,8 @@ The application will take in the following information (student email, age, and 
 
 2Q. Searching and sorting into a file
 Create a command to select just the emails of the student. Save your command in a shell script file “select-emails.sh”
+
+
 Save the output in a file “student-emails.txt”
+
+INPUTING CODE
